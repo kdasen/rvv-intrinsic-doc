@@ -48,15 +48,15 @@ int main() {
 
   // Pseudorandom vectors:
   // 
-  // A: 0    1    1    1    1   | 0    1 ...
-  // B: 0.0, 0.1, 0.2, 0.3, 0.4 | 0.0, 0.1, ...
+  // A: 0, 1, 1, 1, 1 | 0, 1 ...
+  // B: 0, 1, 2, 3, 4 | 0, 1, ...
   // The 31st element is masked off
   // count = 6*4   = 24
-  // sum   = 6*1.0 = 6
+  // sum   = 6*10  = 60
   long int A[N], B[N];
-  for (int i = 0; i<N; i++) {
-    A[i] = (i%5 == 0) ? 0.0: 1.0;
-    B[i] = (i%5) * 0.1;
+  for (int i = 0; i < N; i++) {
+    A[i] = (i%5 == 0) ? 0 : 1;
+    B[i] = (i%5) * 1;
   }
 
 
@@ -67,7 +67,7 @@ int main() {
   reduce(A, B, &actual_sum, &actual_count, N);
 
   // compare
-  if(golden_sum - actual_sum < 1e-6 && golden_count == actual_count) {
+  if(golden_sum == actual_sum && golden_count == actual_count) {
     printf("pass");
   }
   else {
