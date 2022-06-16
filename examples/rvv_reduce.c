@@ -1,5 +1,4 @@
-#include "common.h"
-#include <riscv_vector.h>
+#include <riscv_vector.h>   // keep this
 
 // accumulate and reduce
 void reduce_golden(double *a, double *b, double *result_sum,
@@ -46,13 +45,20 @@ void reduce(double *a, double *b, double *result_sum, int *result_count,
 
 int main() {
   const int N = 31;
-  uint32_t seed = 0xdeadbeef;
-  srand(seed);
 
-  // data gen
+  // Pseudorandom vectors:
+  // 
+  // A: 0    1    1    1    1   | 0    1 ...
+  // B: 0.0, 0.1, 0.2, 0.3, 0.4 | 0.0, 0.1, ...
+  // The 31st element is masked off
+  // count = 6*4   = 24
+  // sum   = 6*1.0 = 6
   double A[N], B[N];
-  gen_rand_1d(A, N);
-  gen_rand_1d(B, N);
+  for (int i = 0; i<N; i++) {
+    A[i] = (i%5 == 0) ? 0.0; 1.0;
+    B[i] = (i%5) * 0.1;
+  }
+
 
   // compute
   double golden_sum, actual_sum;
@@ -61,6 +67,10 @@ int main() {
   reduce(A, B, &actual_sum, &actual_count, N);
 
   // compare
-  puts(golden_sum - actual_sum < 1e-6 && golden_count == actual_count ? "pass"
-                                                                      : "fail");
+  if(golden_sum - actual_sum < 1e-6 && golden_count == actual_count) {
+    printf("pass");
+  }
+  else {
+    printf("fail");
+  }
 }
