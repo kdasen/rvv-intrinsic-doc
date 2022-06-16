@@ -22,7 +22,6 @@ void reduce(long int *a, long int *b, long int *result_sum, int *result_count,
   // set vlmax and initialize variables
   size_t vlmax = vsetvlmax_e64m1();
   vint64m1_t vec_zero = vmv_v_x_i64m1(0, vlmax);
-  vint64m1_t vec_zero = vmv_v_x_i64m1(0, vlmax);
   vint64m1_t vec_s = vmv_v_x_i64m1(0, vlmax);
   vint64m1_t vec_one = vmv_v_x_i64m1(1, vlmax);
   for (size_t vl; n > 0; n -= vl, a += vl, b += vl) {
